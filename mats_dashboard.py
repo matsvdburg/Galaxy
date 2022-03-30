@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+
+
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -76,21 +79,22 @@ st.markdown ("""___""")
 st.title("Discoveries") 
 
 st.markdown("410 years ago, Galileo Galilei discovered the moons of the planet Jupiter with a telescope that he developed himself (Uri, 2020). Observing space has continued through the ages and has led to new insights about humanity, the origin of our existence and has also contributed to a changing perspective on life. The graph below clearly shows that there has been a significant increase in discoveries of extraterrestrial objects over time.")
- 
-dep_delay_per_carrier = (
+
+# Opstellen variabele met groupby selection
+amount_disc_group = (
     df_selection.groupby(by=["discoveryPeriod"]).count()[["englishName"]].sort_values(by="englishName")
     )
 
-fig_dep_delay = px.bar(
-    dep_delay_per_carrier,
+# Opstellen barchart van englishName en de hoevelheid discoveries
+amount_disc = px.bar(
+    amount_disc_group,
     y="englishName",
-    x=dep_delay_per_carrier.index,
+    x=amount_disc_group.index,
     title="<b>Amount of discoveries through time<b>"
     )
 
-st.plotly_chart(fig_dep_delay)
-
-#disc_by = df_selection['discoveredBy'].value_counts().idxmax()
+# Plot chart in Streamlit
+st.plotly_chart(amount_disc)
 
 middle_column, right_column = st.columns(2)
 
@@ -163,6 +167,7 @@ st.markdown ("""___""")
 
 # Titel van nieuwe sectie
 st.title("Relative amount of bodies")
+st.markdown("The solar system consists of a great diversity of different bodies. These are things like planets, asteroids, moons, comets, dwarf planets and stars. But to what extent are these bodies distributed in the solar system in relation to each other? That question is covered in the pie chart below!")
 
 # Opstellen van nieuwe pie chart
 fig = px.pie(df_selection, values='numbers', names='bodyType')
@@ -175,6 +180,7 @@ st.markdown ("""___""")
 # Titel van nieuwe sectie
 st.title("Gravitational forces")
 
+st.markdown("In essence, gravity is the force that makes objects pull together. The moon has much less gravity than the earth. Jupiter in contrast has the highest gravity of any planet in the solar system, on Jupiter you would weigh about 2.5 times as much as on Earth! (Eternach, n.d.)")
 # Koppel de variabele 'highest_gravity' aan de maximale waarde van de 'gravity' kolom
 highest_gravity = df_selection['gravity'].max()
 
@@ -226,8 +232,14 @@ with right_column:
 
 st.markdown ("""___""")
 
+st.title(":balloon: Congratulations")
+
+st.markdown("You made it to the end of this interactive dashboard! Hopefully you have seen and learned many new things about our solar system. We've looked at gravitational forces, the discoveries over the years, temperatures, distances and basically everything to do with space. Hopefully this new knowledge has given you a broader perspective on discoveries and the beauty of space itself!")
+st.markdown ("""___""")
+
 # Titel laatste sectie
 st.title(":book: Sources")
 
 st.markdown("Uri, J. (2020, January 9). 410 Years Ago: Galileo Discovers Jupiter’s Moons. NASA. Retrieved 26 March 2022, from https://www.nasa.gov/feature/410-years-ago-galileo-discovers-jupiter-s-moons/")
 st.markdown("Britannica. (n.d.). aphelion | Definition & Facts. Encyclopedia Britannica. Retrieved 28 March 2022, from https://www.britannica.com/science/aphelion")
+st.markdown("Echternach, E. (n.d.). Natuurkunde.nl - Zwaartekracht. Stichting natuurkunde.nl. Retrieved 30 March 2022, from https://www.natuurkunde.nl/artikelen/684/zwaartekracht")
