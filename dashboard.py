@@ -80,9 +80,12 @@ st.title("Discoveries")
 
 st.markdown("410 years ago, Galileo Galilei discovered the moons of the planet Jupiter with a telescope that he developed himself (Uri, 2020). Observing space has continued through the ages and has led to new insights about humanity, the origin of our existence and has also contributed to a changing perspective on life. The graph below clearly shows that there has been a significant increase in discoveries of extraterrestrial objects over time.")
 
+# Bewaar variabele met 'discoveryPeriod' == 'Unknown' niet voor het creëeren van barchart
+df_selection2 = df_selection.drop(df_selection.index[df_selection['discoveryPeriod'] =='Unknown'])        
+
 # Opstellen variabele met groupby selection
 amount_disc_group = (
-    df_selection.groupby(by=["discoveryPeriod"]).count()[["Amount of discoveries"]].sort_values(by="Amount of discoveries")
+    df_selection2.groupby(by=["discoveryPeriod"]).count()[["Amount of discoveries"]].sort_values(by="Amount of discoveries")
     )
 
 # Opstellen barchart van englishName en de hoevelheid discoveries
