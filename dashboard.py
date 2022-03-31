@@ -82,14 +82,13 @@ st.markdown("410 years ago, Galileo Galilei discovered the moons of the planet J
 
 # Opstellen variabele met groupby selection
 amount_disc_group = (
-    df_selection.groupby(by=["discoveryPeriod"]).count()[["englishName"]].sort_values(by="englishName")
+    df_selection.groupby(by=["discoveryPeriod"]).count()[["Amount of discoveries"]].sort_values(by="Amount of discoveries")
     )
 
 # Opstellen barchart van englishName en de hoevelheid discoveries
 amount_disc = px.bar(
     amount_disc_group,
-    y="englishName",
-    x=amount_disc_group.index,
+    y="Amount of discoveries",
     title="<b>Amount of discoveries through time<b>"
     )
 
@@ -170,7 +169,7 @@ st.title("Relative amount of bodies")
 st.markdown("The solar system consists of a great diversity of different bodies. These are things like planets, asteroids, moons, comets, dwarf planets and stars. But to what extent are these bodies distributed in the solar system in relation to each other? That question is covered in the pie chart below!")
 
 # Opstellen van nieuwe pie chart
-fig = px.pie(df_selection, values='numbers', names='bodyType')
+fig = px.pie(df_selection, values='Amount of discoveries', names='bodyType')
 
 # Tonen van chart in dashboard
 st.plotly_chart(fig)
@@ -200,12 +199,12 @@ st.markdown ("""___""")
 st.title("Relative size and temperature")
 
 # Koppel de 8 grootste lichamen aan 'meanCircum'
-meanCircum = df_selection['meanCircum'].nlargest(8)
+meanCircum = df_selection['Circumference'].nlargest(8)
 
 # Stel barchart op
 meanCircum_chart = px.bar(
     meanCircum,
-    y="meanCircum",
+    y="Circumference",
     x=meanCircum.index,
     title="<b>Largest extraterrestrial objects (circumference in km)<b>"
     )
@@ -222,7 +221,7 @@ middle_column, right_column = st.columns(2)
 with middle_column:
     st.subheader(":straight_ruler: Highest circumference :")
     try: # Constructie om te voorkomen dat programma error geeft bij geen value
-        early_disc = int(df_selection["meanCircum"].max())
+        early_disc = int(df_selection["Circumference"].max())
         st.subheader(f"{early_disc:,} km")
     except ValueError:
         st.subheader(np.nan)
